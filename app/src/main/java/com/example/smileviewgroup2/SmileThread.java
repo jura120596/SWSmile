@@ -25,8 +25,7 @@ public class SmileThread extends Thread {
             if (canvas != null) {
                 try {
                     canvas.drawRGB(0,255, 0);
-                    float k = Math.random() > 0.5 ? 1F : 0.5F;
-                    canvas.drawBitmap(smile, k*touchX, k*touchY, null);
+                    canvas.drawBitmap(smile,touchX, touchY, null);
                 } catch (Exception e) {
                 }finally {
                     holder.unlockCanvasAndPost(canvas);
