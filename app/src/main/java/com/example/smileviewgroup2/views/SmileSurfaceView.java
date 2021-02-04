@@ -18,8 +18,6 @@ public class SmileSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public void surfaceCreated(SurfaceHolder holder) {
         t = new SmileThread(getContext(), holder);
         t.start();
-        Thread t2 = new SmileThread(getContext(), holder);
-        t2.start();
     }
 
     @Override
