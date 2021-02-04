@@ -4,23 +4,17 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.SurfaceHolder;
-
-import com.example.smileviewgroup2.views.SmileSurfaceView;
 
 public class SmileThread extends Thread {
     private SurfaceHolder holder;
-    private SmileSurfaceView smileSurfaceView;
     private volatile boolean run = true;
     private Bitmap smile;
-    private float touchX, touchY, oldX, oldY;
-    public SmileThread(SmileSurfaceView smileSurfaceView, SurfaceHolder holder) {
+    private float touchX, touchY;
+    public SmileThread(Context context, SurfaceHolder holder) {
         this.holder = holder;
-        this.smileSurfaceView = smileSurfaceView;
         smile = BitmapFactory.decodeResource(
-                smileSurfaceView.getContext().getResources(),
+                context.getResources(),
                 R.drawable.smile
         );
     }
@@ -30,24 +24,9 @@ public class SmileThread extends Thread {
             Canvas canvas = holder.lockCanvas();
             if (canvas != null) {
                 try {
-                    if (!smileSurfaceView.start ||
-                        oldX <= touchX && (oldX + smile.getWidth()) > touchX &&
-                        oldY <= touchY && (oldY + smile.getHeight()) > touchY
-                        || (touchX == 0 && touchY == 0)
-                    ) {
-                            canvas.drawRGB(0, 255, 0);
-                            oldX = touchX;
-                            oldY = touchY;
-                        canvas.drawBitmap(smile, touchX, touchY, null);
-                    }
-                    Paint paint = new Paint();
-                    paint.setTextSize(80);
-                    paint.setColor(Color.GREEN);
-                    canvas.drawRect(0, canvas.getHeight() - 200, canvas.getWidth(), canvas.getHeight(), paint);
-
-                    paint.setColor(Color.BLACK);
-                    canvas.drawText("old:" + oldX +"," + oldY+ "   " + "Touch:" + touchX +"," +touchY,
-                            0, canvas.getHeight() - 100, paint);
+                    canvas.drawRGB(0,255, 0);
+                    float k = Math.random() > 0.5 ? 1F : 0.5F;
+                    canvas.drawBitmap(smile, k*touchX, k*touchY, null);
                 } catch (Exception e) {
                 }finally {
                     holder.unlockCanvasAndPost(canvas);
